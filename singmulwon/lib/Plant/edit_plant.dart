@@ -7,6 +7,14 @@ import 'package:image_picker/image_picker.dart';
 import '/Provider/plant.dart';
 import '/Provider/plants.dart';
 
+class WaterRate extends ChangeNotifier {
+  int _water = 0;
+
+  void get change {
+    notifyListeners();
+  }
+}
+
 class EditPlant extends StatefulWidget {
   static const routeName = '/edit-plant';
 
@@ -146,17 +154,20 @@ class _EditPlantState extends State<EditPlant> {
                 ),
                 Expanded(
                   flex: 7,
-                  child: Slider(
-                    value: _currentWaterValue,
-                    min: 0,
-                    max: 100,
-                    divisions: 100,
-                    label: _currentWaterValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentWaterValue = value;
-                      });
-                    },
+                  child: ChangeNotifierProvider(
+                    create: (_) => WaterRate(),
+                    child: Slider(
+                      value: _currentWaterValue,
+                      min: 0,
+                      max: 100,
+                      divisions: 100,
+                      label: _currentWaterValue.round().toString(),
+                      onChanged: (double value) {
+                        setState(() {
+                          _currentWaterValue = value;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ],
